@@ -60,7 +60,7 @@ ext {
     compileSdkVersion = 24
     // When upgrading minimum sdk you might want to search for occurrences of Build.VERSION_CODES.
     // There are some classes with possibility of being simplified.
-    minSdkVersion = 17
+    minSdkVersion = 21
     targetSdkVersion = 23
     buildToolsVersion = '24.0.3'
     scalaMajorVersion = '2.11'
