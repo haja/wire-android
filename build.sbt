@@ -26,7 +26,7 @@ resolvers in Global ++= Seq (
   Resolver.bintrayRepo("wire-android", "releases"),
   Resolver.bintrayRepo("wire-android", "snapshots"),
   Resolver.bintrayRepo("wire-android", "third-party"),
-  "android team nexus" at "http://192.168.10.18:8081/nexus/content/groups/public",
+  //"android team nexus" at "http://192.168.10.18:8081/nexus/content/groups/public",
   "Maven central 1" at "http://repo1.maven.org/maven2",
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
   "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases",
