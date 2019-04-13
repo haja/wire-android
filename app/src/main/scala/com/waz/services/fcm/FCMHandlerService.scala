@@ -39,6 +39,7 @@ import scala.concurrent.Future
 /**
   * For more information, see: https://firebase.google.com/docs/cloud-messaging/android/receive
   */
+// TODO this is our FCM push receiver hook!
 class FCMHandlerService extends FirebaseMessagingService with ZMessagingService {
   import com.waz.threading.Threading.Implicits.Background
 
@@ -60,6 +61,7 @@ class FCMHandlerService extends FirebaseMessagingService with ZMessagingService 
 
     import FCMHandlerService._
 
+    // TODO this documents what parts of FCM remote message are used
     Option(remoteMessage.getData).map(_.asScala.toMap).foreach { data =>
       verbose(s"onMessageReceived with data: $data")
       Option(ZMessaging.currentGlobal) match {
