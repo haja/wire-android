@@ -51,6 +51,9 @@
     <!-- GCM from Localytics TODO still needed? -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+    <!-- push relay -->
+    <uses-permission android:name="at.sbaresearch.android.c2dm.permission.RECEIVE" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -245,12 +248,14 @@
         <service android:name="com.waz.services.calling.CallWakeService"
                  android:exported="true"/>
 
+        <!--
         <service
             android:name="com.waz.services.fcm.FCMHandlerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+        -->
 
         <receiver android:name="com.waz.services.websocket.WebSocketBroadcastReceiver">
             <intent-filter>
@@ -313,6 +318,25 @@
 
         <service android:name="com.waz.services.calling.CallingNotificationsService" />
         <service android:name="com.waz.services.calling.CallWakeService" android:exported="true" />
+
+        <!-- push relay receiver setup -->
+        <receiver
+            android:name="at.sbaresearch.microg.adapter.library.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="at.sbaresearch.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="at.sbaresearch.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.waz.zclient"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.waz.services.fcm.FCMHandlerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="at.sbaresearch.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
 
     </application>
 

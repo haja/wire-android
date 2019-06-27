@@ -21,48 +21,27 @@ import java.io.IOException
 
 import android.app.Activity
 import android.content.Context
-import com.google.android.gms.common.ConnectionResult.{SERVICE_VERSION_UPDATE_REQUIRED, SUCCESS}
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.FirebaseApp
-import com.google.firebase.iid.FirebaseInstanceId
-import com.waz.ZLog.{info, warn}
+import at.sbaresearch.microg.adapter.library.gms.iid.FirebaseInstanceId
 import com.waz.ZLog.ImplicitTag._
+import com.waz.ZLog.info
 import com.waz.content.GlobalPreferences
-import com.waz.content.GlobalPreferences.GPSErrorDialogShowCount
 import com.waz.model.PushToken
 import com.waz.service.BackendConfig
-import com.waz.service.BackendConfig.FirebaseOptions
-import com.waz.utils.{LoggedTry, returning}
 import com.waz.utils.events.Signal
+import com.waz.utils.returning
 import com.waz.utils.wrappers.GoogleApi
 
-import scala.util.Try
 
-// TODO adopt this class for our FCM impl? implement GoogleApi again and switch it as a compile time option?
-class GoogleApiImpl private (context: Context, beConfig: BackendConfig, prefs: GlobalPreferences) extends GoogleApi {
+class GoogleApiImpl private(context: Context, beConfig: BackendConfig, prefs: GlobalPreferences) extends GoogleApi {
 
   import GoogleApiImpl._
 
-  private val api = GoogleApiAvailability.getInstance()
-
-  private val firebaseApp = initFirebase(context, beConfig.firebaseOptions)
-
-  private def isGPSAvailable = Try(api.isGooglePlayServicesAvailable(context) == SUCCESS).toOption.contains(true)
+  private def isGPSAvailable = true
 
   override val isGooglePlayServicesAvailable = Signal[Boolean](isGPSAvailable)
 
-  override def checkGooglePlayServicesAvailable(activity: Activity) = api.isGooglePlayServicesAvailable(activity) match {
-    case SUCCESS =>
-      info("Google Play Services available")
-      isGooglePlayServicesAvailable ! true
-    case SERVICE_VERSION_UPDATE_REQUIRED if prefs.getFromPref(GPSErrorDialogShowCount) <= MaxErrorDialogShowCount =>
-      info(s"Google Play Services requires update - prompting user")
-      prefs.preference(GPSErrorDialogShowCount).mutate(_ + 1)
-      api.getErrorDialog(activity, SERVICE_VERSION_UPDATE_REQUIRED, RequestGooglePlayServices).show()
-    case code =>
-      isGooglePlayServicesAvailable ! false
-      warn(s"Google Play Services not available: error code: $code")
-  }
+  override def checkGooglePlayServicesAvailable(activity: Activity) =
+    isGooglePlayServicesAvailable ! true
 
   override def onActivityResult(requestCode: Int, resultCode: Int) = requestCode match {
     case RequestGooglePlayServices =>
@@ -79,20 +58,12 @@ class GoogleApiImpl private (context: Context, beConfig: BackendConfig, prefs: G
   @throws(classOf[IOException])
   override def deleteAllPushTokens(): Unit = withFcmInstanceId(_.deleteInstanceId())
 
-  private def withFcmInstanceId[A](f: FirebaseInstanceId => A): A = firebaseApp.fold(throw new IllegalStateException("No Firebase app instance available"))(app => f(FirebaseInstanceId.getInstance(app)))
+  private def withFcmInstanceId[A](f: FirebaseInstanceId => A): A = f(FirebaseInstanceId.getInstance(context))
 }
 
 object GoogleApiImpl {
   val RequestGooglePlayServices = 7976
   val MaxErrorDialogShowCount = 3
-
-  private[GoogleApiImpl] def initFirebase(context: Context, options: FirebaseOptions) = LoggedTry {
-    FirebaseApp.initializeApp(context, new com.google.firebase.FirebaseOptions.Builder()
-      .setApplicationId(options.appId)
-      .setApiKey(options.apiKey)
-      .setGcmSenderId(options.pushSenderId)
-      .build())
-  }.toOption
 
   private var instance = Option.empty[GoogleApiImpl]
 
@@ -104,3 +75,4 @@ object GoogleApiImpl {
   }
 
 }
+
