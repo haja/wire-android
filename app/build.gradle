@@ -9,6 +9,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    mavenLocal()
 }
 
 ext {
@@ -22,7 +23,7 @@ ext {
     audioVersion = System.getenv("AUDIO_VERSION") ?: '1.209.0@aar'
     stethoVersion = '1.5.0'
 
-    zMessagingDevVersionBase = '129.2153'
+    zMessagingDevVersionBase = '130.1'
     zMessagingDevVersion = "${zMessagingDevVersionBase}@aar"
     // Release version number must be like this X.0(.Y)
     zMessagingReleaseVersion = System.getenv("ZMESSAGING_VERSION") ?: '129.3.491@aar'
@@ -283,6 +284,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$playServicesVersion"
     implementation "com.google.android.gms:play-services-gcm:$playServicesVersion"
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
+
+    // Push relay
+    implementation 'at.sbaresearch:push-integration-lib:1.0'
 
     //third party libraries
     implementation 'com.evernote:android-job:1.3.0-alpha06'

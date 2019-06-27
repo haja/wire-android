@@ -38,6 +38,7 @@ import com.waz.utils.wrappers.GoogleApi
 
 import scala.util.Try
 
+// TODO adopt this class for our FCM impl? implement GoogleApi again and switch it as a compile time option?
 class GoogleApiImpl private (context: Context, beConfig: BackendConfig, prefs: GlobalPreferences) extends GoogleApi {
 
   import GoogleApiImpl._

@@ -64,7 +64,7 @@ ext {
     compileSdkVersion = 27
     // When upgrading minimum sdk you might want to search for occurrences of Build.VERSION_CODES.
     // There are some classes with possibility of being simplified.
-    minSdkVersion = 17
+    minSdkVersion = 21
     targetSdkVersion = 27
 
     buildToolsVersion = '27.0.3'
