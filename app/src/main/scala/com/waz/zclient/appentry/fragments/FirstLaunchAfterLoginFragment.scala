@@ -27,9 +27,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.view.{LayoutInflater, View, ViewGroup}
 import com.waz.ZLog.ImplicitTag._
+import com.waz.ZLog
 import com.waz.api.impl.ErrorResponse
 import com.waz.model.UserId
 import com.waz.permissions.PermissionsService
+import com.waz.permissions.PermissionsService.PermissionKey
 import com.waz.service.AccountsService
 import com.waz.service.BackupManager.InvalidMetadata
 import com.waz.threading.{CancellableFuture, Threading}
@@ -52,6 +54,8 @@ object FirstLaunchAfterLoginFragment {
   val Tag: String = classOf[FirstLaunchAfterLoginFragment].getName
   val UserIdArg = "user_id_arg"
   val SSOHadDBArg = "sso_had_db_arg"
+
+  val PERM_PUSH_ADAPTER_RECEIVE: PermissionKey = "at.sbaresearch.android.c2dm.permission.RECEIVE"
 
   def apply(): Fragment = new FirstLaunchAfterLoginFragment
   def apply(userId: UserId, ssoHadDB: Boolean = true): Fragment = returning(new FirstLaunchAfterLoginFragment) { f =>
@@ -107,6 +111,14 @@ class FirstLaunchAfterLoginFragment extends FragmentHelper with View.OnClickList
     if (databaseExists && getBooleanArg(SSOHadDBArg)) {
       infoTitle.foreach(_.setText(R.string.second_launch__header))
       infoText.foreach(_.setText(R.string.second_launch__sub_header))
+    }
+
+    ZLog.info("asking for push relay permission")
+    permissions.requestAllPermissions(ListSet(PERM_PUSH_ADAPTER_RECEIVE)).foreach { granted =>
+      if (granted) ZLog.info("PUSH RELAY permission granted")
+      else {
+        //todo show something???
+      }
     }
   }
 
