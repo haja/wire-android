@@ -21,6 +21,7 @@ import java.io.IOException
 
 import android.app.Activity
 import android.content.Context
+import android.util.Base64
 import at.sbaresearch.microg.adapter.library.gms.iid.FirebaseInstanceId
 import com.waz.ZLog.ImplicitTag._
 import com.waz.ZLog.info
@@ -53,7 +54,11 @@ class GoogleApiImpl private(context: Context, beConfig: BackendConfig, prefs: Gl
   }
 
   @throws(classOf[IOException])
-  override def getPushToken = withFcmInstanceId(id => PushToken(id.getToken(beConfig.pushSenderId, "FCM")))
+  override def getPushToken = withFcmInstanceId(id => {
+    val relayConn = id.getToken(beConfig.pushSenderId, "FCM")
+    val encodedCert = Base64.encodeToString(relayConn.cert, Base64.NO_WRAP)
+    PushToken(relayConn.token, relayConn.relayUrl, encodedCert)
+  })
 
   @throws(classOf[IOException])
   override def deleteAllPushTokens(): Unit = withFcmInstanceId(_.deleteInstanceId())

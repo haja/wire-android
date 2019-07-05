@@ -23,7 +23,7 @@ ext {
     audioVersion = System.getenv("AUDIO_VERSION") ?: '1.209.0@aar'
     stethoVersion = '1.5.0'
 
-    zMessagingDevVersionBase = '130.1'
+    zMessagingDevVersionBase = '130.2'
     zMessagingDevVersion = "${zMessagingDevVersionBase}@aar"
     // Release version number must be like this X.0(.Y)
     zMessagingReleaseVersion = System.getenv("ZMESSAGING_VERSION") ?: '129.3.491@aar'
@@ -286,7 +286,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
     // Push relay
-    implementation 'at.sbaresearch:push-integration-lib:1.0'
+    implementation 'at.sbaresearch:push-integration-lib:1.1'
 
     //third party libraries
     implementation 'com.evernote:android-job:1.3.0-alpha06'
