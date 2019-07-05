@@ -17,7 +17,7 @@
  */
 package com.waz.services.fcm
 
-import com.google.firebase.messaging.{FirebaseMessagingService, RemoteMessage}
+import at.sbaresearch.microg.adapter.library.firebase.messaging.{FirebaseMessagingService, RemoteMessage}
 import com.waz.ZLog.{info, verbose, warn}
 import com.waz.ZLog.ImplicitTag._
 import com.waz.model.{Uid, UserId}
@@ -72,7 +72,7 @@ class FCMHandlerService extends FirebaseMessagingService with ZMessagingService 
                 accs.find(_ == target) match {
                   case Some(acc) =>
                     accounts.getZms(acc).flatMap {
-                      case Some(zms) => FCMHandler(zms, data, Instant.ofEpochMilli(remoteMessage.getSentTime))
+                      case Some(zms) => FCMHandler(zms, data, Instant.ofEpochMilli(remoteMessage.getSentTime)) // TODO fix RemoteMessage
                       case _ =>
                         warn("Couldn't instantiate zms instance")
                         Future.successful({})

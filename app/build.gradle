@@ -286,7 +286,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
     // Push relay
-    implementation 'at.sbaresearch:push-integration-lib:1.1'
+    implementation 'at.sbaresearch:push-integration-lib:1.2'
 
     //third party libraries
     implementation 'com.evernote:android-job:1.3.0-alpha06'
