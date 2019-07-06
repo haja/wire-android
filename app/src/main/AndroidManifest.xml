@@ -326,7 +326,8 @@
             android:permission="at.sbaresearch.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="at.sbaresearch.android.c2dm.intent.RECEIVE"/>
-                <category android:name="com.waz.zclient"/>
+                <!-- TODO push: how to set category? this depends on build flavor! -->
+                <category android:name="com.wire.internal"/>
             </intent-filter>
         </receiver>
         <service
