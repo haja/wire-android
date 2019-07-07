@@ -72,7 +72,7 @@ class FCMHandlerService extends FirebaseMessagingService with ZMessagingService 
                 accs.find(_ == target) match {
                   case Some(acc) =>
                     accounts.getZms(acc).flatMap {
-                      case Some(zms) => FCMHandler(zms, data, Instant.ofEpochMilli(remoteMessage.getSentTime)) // TODO fix RemoteMessage
+                      case Some(zms) => FCMHandler(zms, data, Instant.ofEpochMilli(remoteMessage.getSentTime))
                       case _ =>
                         warn("Couldn't instantiate zms instance")
                         Future.successful({})
