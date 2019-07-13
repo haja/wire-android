@@ -38,8 +38,10 @@ public class BackendPicker {
     private final Context context;
 
     private final String[] backends = new String[] {
-            BackendConfig.StagingBackend().environment(),
-            BackendConfig.ProdBackend().environment()
+        BackendConfig.StagingBackend().name(),
+        BackendConfig.StagingBackendLocal().name(),
+        BackendConfig.StagingBackendTrigger().name(),
+        BackendConfig.ProdBackend().name()
     };
 
     public BackendPicker(Context context) {
