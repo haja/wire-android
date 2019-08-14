@@ -41,6 +41,7 @@ public class BackendPicker {
         BackendConfig.StagingBackend().name(),
         BackendConfig.StagingBackendLocal().name(),
         BackendConfig.StagingBackendTrigger().name(),
+        BackendConfig.StagingBackendRemoteDocker().name(),
         BackendConfig.ProdBackend().name()
     };
 
