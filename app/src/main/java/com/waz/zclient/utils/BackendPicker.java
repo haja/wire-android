@@ -41,7 +41,7 @@ public class BackendPicker {
         BackendConfig.StagingBackend().name(),
         BackendConfig.StagingBackendLocal().name(),
         BackendConfig.StagingBackendTrigger().name(),
-        BackendConfig.StagingBackendRemoteDocker().name(),
+        BackendConfig.EmulatorBackend().name(),
         BackendConfig.ProdBackend().name()
     };
 
@@ -53,6 +53,7 @@ public class BackendPicker {
         if (shouldShowBackendPicker()) {
             showDialog(activity, callback);
         } else {
+            // TODO is this the bug why wire switches to another backend after restart?
             callback.callback(BackendConfig.ProdBackend());
         }
     }
