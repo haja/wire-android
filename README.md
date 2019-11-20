@@ -42,6 +42,10 @@ These steps will build only the Wire client UI, pulling in all other Wire framew
 - [generic-message-proto](https://github.com/wireapp/generic-message-proto)
 - [wiretranslations-android](https://github.com/wireapp/wiretranslations-android)
 
+# How to run with locally built sync enging (zmessaging)
+launching wire-android with buildVariant "interalDebug" -> uses correct zmessaging dev version
+
+
 ## Android Studio
 When importing project in Android Studio **do not allow** gradle plugin update. Our build setup requires Android Plugin for Gradle version 1.5. 
 
